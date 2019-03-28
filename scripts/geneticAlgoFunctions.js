@@ -1,4 +1,3 @@
-import { throwStatement } from "@babel/types";
 
 function Chromosome(allels, fitnessValue) {
     fitnessValue = 0 || fitnessValue;
@@ -118,3 +117,5 @@ Population.prototype.setChromosomesTo = function(chromosomes) {
         this.chromosomes.push(chromosomes[i]);
     }
 }
+
+module.exports = {Population, Chromosome};
