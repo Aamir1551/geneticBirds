@@ -18,9 +18,9 @@ Population.prototype.initialisePopulation = function(populationSize, chromosomeL
     InitChromosomeToZero = InitChromosomeToZero || false;
     alleleRange = alleleRange || 1;
     isAllelRealValued = isAllelRealValued || true;
-    if(InitChromosomeToZero == True) {
+    if(InitChromosomeToZero == true) {
         for(let i = 0; i<populationSize; i++) {
-            generatedPopulation[i] = {'chromosome': new Chromosome(new Array(chromosomeLength).fill(0), 0)};
+            generatedPopulation[i] = new Chromosome(new Array(chromosomeLength).fill(0), 0);
         }
     }
 
@@ -31,7 +31,7 @@ Population.prototype.initialisePopulation = function(populationSize, chromosomeL
             let randomAlleleChosen = isAllelRealValued ? Math.round(randomAllele) : randomAllele;
             currentChromosome.push(randomAlleleChosen);
         }
-        generatedPopulation[i] = {'chromosome': new Chromosome(currentChromosome)};
+        generatedPopulation[i] = new Chromosome(currentChromosome);
     }
     this.chromosomes = generatedPopulation;
 }
