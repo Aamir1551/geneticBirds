@@ -1,0 +1,19 @@
+{
+  "name": "geneticbirds",
+  "version": "1.0.0",
+  "description": "A biological simulation of a genetic algorithm where the goal is to survive and dodge as many bullets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aamir1551/geneticBirds.git"
+  },
+  "author": "Aamir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aamir1551/geneticBirds/issues"
+  },
+  "homepage": "https://github.com/Aamir1551/geneticBirds#readme"
+}
