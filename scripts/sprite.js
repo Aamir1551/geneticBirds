@@ -16,3 +16,5 @@ Sprite.updateX = function(deltaX) {
 Sprite.updateY = function(deltaY) {
     this.y += deltaY;
 }
+
+module.exports = Sprite;
