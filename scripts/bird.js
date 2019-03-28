@@ -9,4 +9,7 @@ function Bird(initialXPositiion, initialYPosition, intialChromosome, spriteImage
 Bird.prototype = Object.create(Sprite.prototype);
 Bird.prototype.constructor = Bird;
 
+Bird.prototype.move  = function(environment) {
+    
+}
 
