@@ -8,6 +8,7 @@ function Population(chromosomeLength, populationSize) {
     this.chromosomes = {};
     this.chromosomeLength = chromosomeLength;
     this.populationSize = populationSize;
+    this.cumulativeFitnessValue = 0;
 }
 
 
@@ -36,6 +37,8 @@ Population.prototype.initialisePopulation = function(populationSize, chromosomeL
     this.chromosomes = generatedPopulation;
 }
 
+
+
 Population.prototype.mutatePopulation = function(mutatorFunction) {
     for(let i = 0; i<populationSize; i++) {
         this.chromosomes[i] = mutatorFunction(this.chromosomes[i]);
@@ -48,7 +51,43 @@ Population.prototype.calculateFitnessValue = function(fitnessFunction) {
     }
 }
 
-Population.prototype.selectParent = function() {
-    
+Population.prototype.sumFitnessValue = function() {
+    let runningFitnessValue = 0;
+    for(let i =0; i<populationSize; i++) {
+        runningFitnessValue += this.chromosomes[i].fitnessValue;
+    }
+    this.cumulativeFitnessValue = runningFitnessValue;
 }
-Population.prototype.crossOver = function() {};
+
+Population.prototype.selectParent = function(useCurrentFitnessValue) {
+    useCurrentFitnessValue = useCurrentFitnessValue || false;
+    if(useCurrentFitnessValue == false) {
+        this.sumFitnessValue();
+    }
+}
+
+Population.prototype.selectParentByRouletteWheelSelection = function(useCurrentFitnessValue) {
+
+}
+
+Population.prototype.selectParentByUniversalSampling = function(numParentsTOSelect, useCurrentFitnessValue) {
+    useCurrentFitnessValue ? null : this.sumFitnessValue(); 
+    let parentsSelected = [];
+    let parentsPointsSelected = [];
+    for(let i = 0; i<numParentsTOSelect; i++) {
+        parentsPointsSelected.push(Math.random() * this.cumulativeFitnessValue);
+    } 
+    for(let i = 0; i<numParentsTOSelect; i++) {
+        let chosenParentIndex = -1;
+        while(parentsPointsSelected[i] > 0) {
+            parentsPointsSelected[i] -= this.chromosomes.fitnessValue;
+            chosenParentIndex++;
+        }
+        parentsSelected.push(this.chromosomes[chosenParentIndex]);
+    }
+    return parentsSelected;
+}
+
+Population.prototype.crossOver = function() {
+
+};
