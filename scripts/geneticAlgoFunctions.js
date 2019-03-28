@@ -1,3 +1,5 @@
+import { throwStatement } from "@babel/types";
+
 function Chromosome(allels, fitnessValue) {
     fitnessValue = 0 || fitnessValue;
     this.allels = allels;
@@ -6,7 +8,6 @@ function Chromosome(allels, fitnessValue) {
 
 function Population(chromosomeLength, populationSize) {
     this.chromosomes = {};
-    this.chromosomeLength = chromosomeLength;
     this.populationSize = populationSize;
     this.cumulativeFitnessValue = 0;
 }
@@ -14,7 +15,6 @@ function Population(chromosomeLength, populationSize) {
 
 Population.prototype.initialisePopulation = function(populationSize, chromosomeLength, InitChromosomeToZero, alleleRange, isAllelRealValued) {
     this.populationSize = populationSize;
-    this.chromosomeLength = chromosomeLength;
     let generatedPopulation = {};
     InitChromosomeToZero = InitChromosomeToZero || false;
     alleleRange = alleleRange || 1;
@@ -66,9 +66,6 @@ Population.prototype.selectParent = function(useCurrentFitnessValue) {
     }
 }
 
-Population.prototype.selectParentByRouletteWheelSelection = function(useCurrentFitnessValue) {
-
-}
 
 Population.prototype.selectParentByUniversalSampling = function(numParentsTOSelect, useCurrentFitnessValue) {
     useCurrentFitnessValue ? null : this.sumFitnessValue(); 
@@ -88,6 +85,36 @@ Population.prototype.selectParentByUniversalSampling = function(numParentsTOSele
     return parentsSelected;
 }
 
-Population.prototype.crossOver = function() {
+Population.prototype.selectParentByTournamentSelection = function(tounramentSize) {
+    let participantIndexes = [] 
+    for(let i=0; i<tounramentSize; i++) {
+        let newParticipantIndex = Math.random() * this.populationSize; 
+        participantIndexes.includes(newParticipantIndex) ? i-- : participantIndexes.push(newParticipantIndex);
+    }
+    let parentSelectedIndex = 0;
+    let parentSelectedFitnessValue = -Infinity;
+    for(let i = 0; i<participantIndexes; i++) {
+        if(this.chromosomes[i].fitnessValue > parentSelectedFitnessValue) {
+            parentSelectedIndex = i;
+            parentSelectedFitnessValue = this.chromosomes[i].fitnessValue;
+        }
+    }
+    return this.chromosomes[parentSelectedIndex];
+}
 
+Population.prototype.crossOver = function(crossOverOperation, numChildren, parent1, parent2) {
+    let children = [];
+    for(let i = 0; i<numChildren; i++) {
+        children.push(crossOverOperation(parent1, parent2));
+    }
+    return new Chromosome(children, 0);
 };
+
+Population.prototype.setChromosomesTo = function(chromosomes) {
+    this.populationSize = chromosome.length;
+    this.cumulativeFitnessValue = 0;
+    this.chromosomes = {};
+    for(let i = 0; i<this.populationSize; i++) {
+        this.chromosomes.push(chromosomes[i]);
+    }
+}
