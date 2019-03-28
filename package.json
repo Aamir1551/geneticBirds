@@ -4,7 +4,7 @@
   "description": "A biological simulation of a genetic algorithm where the goal is to survive and dodge as many bullets",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Aamir1551/geneticBirds/issues"
   },
-  "homepage": "https://github.com/Aamir1551/geneticBirds#readme"
+  "homepage": "https://github.com/Aamir1551/geneticBirds#readme",
+  "devDependencies": {
+    "jest": "^24.5.0"
+  }
 }
