@@ -1,8 +1,9 @@
-function Sprite(initialXPositiion, initialYPosition, intialChromosome, spriteImage) {
+function Sprite(initialXPositiion, initialYPosition, intialChromosome, spriteImage, alleleMaxValue) {
     this.x = initialXPositiion;
     this.y = initialYPosition;
     this.image = spriteImage;
     this.chromosome = intialChromosome;
+    this.alleleMaxValue = alleleMaxValue;
 }
 
 Sprite.prototype.render = function() {

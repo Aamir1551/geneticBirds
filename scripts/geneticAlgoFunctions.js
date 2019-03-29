@@ -11,12 +11,13 @@ function Population() {
 }
 
 
-Population.prototype.initialisePopulation = function(populationSize, chromosomeLength, InitChromosomeToZero, alleleRange, isAllelRealValued) {
+Population.prototype.initialisePopulation = function(populationSize, chromosomeLength, InitChromosomeToZero, isAllelRealValued, minAlleleValue, maxAlleleValue) {
     this.populationSize = populationSize;
     let generatedPopulation = {};
     InitChromosomeToZero = InitChromosomeToZero || false;
-    alleleRange = alleleRange || 1;
     isAllelRealValued = isAllelRealValued || false;
+    minAlleleValue = minAlleleValue || 0;
+    maxAlleleValue = maxAlleleValue || 1;
     if(InitChromosomeToZero == true) {
         for(let i = 0; i<populationSize; i++) {
             generatedPopulation[i] = new Chromosome(new Array(chromosomeLength).fill(0), 0);
@@ -28,7 +29,7 @@ Population.prototype.initialisePopulation = function(populationSize, chromosomeL
     for(let i = 0; i<populationSize; i++) {
         let currentChromosome = [];
         for(let j = 0; j<chromosomeLength; j++) {
-            let randomAllele = Math.random() * alleleRange;
+            let randomAllele = Math.random() * (maxAlleleValue - minAlleleValue) + minAlleleValue;
             let randomAlleleChosen = isAllelRealValued ? randomAllele : Math.round(randomAllele);
             currentChromosome.push(randomAlleleChosen);
         }
