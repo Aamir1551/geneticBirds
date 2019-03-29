@@ -3,14 +3,16 @@ import {Population, Chromosome} from './geneticAlgoFunctions.js'
 //environment will fill in the population details (mutator func and all that)
 //
 
-function Environment(crossOverOperation, mutatorFunction) {
+function Environment(populationSize, rossOverOperation, mutatorFunction) {
     this.birdPopulation = new Population();
+    this.populationSize = populationSize;
     this.mutatorFunction = mutatorFunction;
     this.crossOverOperation = crossOverOperation;
 }
 
 //This function will give each bird its corresponding chromosome
 Environment.initialise = function() {
+
 
 }
 
