@@ -110,3 +110,6 @@ Population.prototype.setChromosomesTo = function(chromosomes) {
     this.cumulativeFitnessValue = 0;
     this.chromosomes = chromosomes;
 }
+
+
+export {Population, Chromosome}
