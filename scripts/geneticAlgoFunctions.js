@@ -11,14 +11,14 @@ function Population() {
 }
 
 
-Population.prototype.initialisePopulation = function(populationSize, chromosomeLength, InitChromosomeToZero, isAllelRealValued, minAlleleValue, maxAlleleValue) {
+Population.prototype.initialisePopulation = function(populationSize, chromosomeLength, initChromosomeToZero, isAllelRealValued, minAlleleValue, maxAlleleValue) {
     this.populationSize = populationSize;
     let generatedPopulation = {};
-    InitChromosomeToZero = InitChromosomeToZero || false;
+    initChromosomeToZero = initChromosomeToZero || false;
     isAllelRealValued = isAllelRealValued || false;
     minAlleleValue = minAlleleValue || 0;
     maxAlleleValue = maxAlleleValue || 1;
-    if(InitChromosomeToZero == true) {
+    if(initChromosomeToZero == true) {
         for(let i = 0; i<populationSize; i++) {
             generatedPopulation[i] = new Chromosome(new Array(chromosomeLength).fill(0), 0);
         }
@@ -43,11 +43,11 @@ Population.prototype.initialisePopulation = function(populationSize, chromosomeL
 
 Population.prototype.mutatePopulation = function(mutatorFunction) {
     for(let i = 0; i<this.populationSize; i++) {
-        this.chromosomes[i] = mutatorFunction(this.chromosomes[i]);
+        this.chromosomes[i] = mutatorFunction(new Chromosome(this.chromosomes[i], 0));
     }
 }
 
-Population.prototype.calculateFitnessValue = function(fitnessFunction) {
+Population.prototype.calculateFitnessValues = function(fitnessFunction) {
     for(let i = 0; i<this.populationSize;i++) {
         this.chromosomes[i].fitnessValue = fitnessFunction(this.chromosomes[i].alleles);
     }
@@ -113,4 +113,4 @@ Population.prototype.setChromosomesTo = function(chromosomes) {
 }
 
 
-export {Population, Chromosome}
+module.exports = {Population, Chromosome};

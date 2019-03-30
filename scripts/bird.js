@@ -1,20 +1,25 @@
-const {Bird}  = require('./sprite');
-//bird will do its instructions based upon its chromosome
 
-function Bird(initialXPositiion, initialYPosition, intialChromosome, spriteImage) {
-    Sprite.call(this, initialXPositiion, initialYPosition, intialChromosome, spriteImage);
-    
+function Bird(initialXvalue, initialYvalue, initialRotationValue, surroundings) {
+    this.x = initialXvalue;
+    this.y = initialYvalue;
+    this.angle = initialRotationValue;
+    this.surroundings = surroundings;
+    this.isAlive = true;
 }
 
-Bird.prototype = Object.create(Sprite.prototype);
-Bird.prototype.constructor = Bird;
-
-Bird.prototype.chooseAction  = function(surroundings) {
-    let actionChosen = 0;
-    for(let i = 0; i<surroundings.length; i++) {
-        actionChosen+= (surroundings[i].x - this.x) * this.chromosome[0];
-        actionChosen+= (surroundings[i].y - this.y) * this.chromosome[1]; 
-    }
-    return actionChosen > 0 ? 1 : 0;
+Bird.prototype.updateSurroundings = function(newSurroundings) {
+    this.surroundings = newSurroundings;
 }
 
+Bird.prototype.updateLocation = function(newXvalue, newYvalue, newRotationValue) {
+    this.x = newXvalue;
+    this.y = newYvalue;
+    this.angle = newRotationValue;
+}
+
+Bird.die() = function() {
+    this.isAlive = false;
+}
+
+
+module.exports = Bird;
