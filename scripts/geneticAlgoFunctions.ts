@@ -1,10 +1,72 @@
+import {fixedLengthArray} from './helpers'
+
 export class Chromosome {
-    public constructor(public alleles:number[], public fitnessValue:number = 0) {
-        this.alleles = alleles;
+
+    public constructor(public alleles:number[], public fitnessValue:number = 0, public mutatorFunction:(allele:number[])=>number[]) {}
+
+    public mutateChromosome() {
+        this.alleles = this.mutatorFunction(this.alleles);
+    }
+
+    public setFitnessValue(fitnessValue:number) {
         this.fitnessValue = fitnessValue;
     }
+
+    public initialize(chromosomeLength : number, isAlleleRealValued : Boolean = false, minAlleleValue : number = 0, maxAlleleValue:number=0) {
+        let currentChromosome = [];
+        for(let j = 0; j<chromosomeLength; j++) {
+            let randomAllele = Math.random() * (maxAlleleValue - minAlleleValue) + minAlleleValue;
+            let randomAlleleChosen = isAlleleRealValued ? randomAllele : Math.round(randomAllele);
+            currentChromosome.push(randomAlleleChosen);
+        }
+    }
+
+    public selectParentByUniversalSampling(parentSample:Chromosome[], numParentsTOSelect:number, cumulativeFitnessValue) : Chromosome[]{
+        let parentsSelected:Chromosome[] = [];
+        let parentsPointsSelected = [];
+        
+        for(let i = 0; i<numParentsTOSelect; i++) {
+            parentsPointsSelected.push(Math.random() * cumulativeFitnessValue); 
+        }
+        
+        for(let i = 0; i<numParentsTOSelect; i++) {
+            let chosenParentIndex:number = -1;
+            while(parentsPointsSelected[i] > 0) {
+                parentsPointsSelected[i] -= parentSample[chosenParentIndex+1].fitnessValue;
+                chosenParentIndex++;
+            }
+            parentsSelected.push(parentSample[chosenParentIndex]);
+        }
+        return parentsSelected;
+    }
+
+    public selectParentByTournamentSelection(parentSample:Chromosome[], numParentsToSelect:number, tounramentSize:number) : Chromosome[]{
+
+        let parentsSelected : Chromosome[];
+        for(let j = 0; j<numParentsToSelect;j++) {
+            let participantIndexes:number[] = [] //this will contain the list of indexes seleceted -- zero indexed
+            
+            for(let i=0; i<tounramentSize; i++) {
+                let newParticipantIndex = Math.round(Math.random() * (parentSample.length -1));
+                participantIndexes.includes(newParticipantIndex) ? i-- : participantIndexes.push(newParticipantIndex);
+            }
+            
+            let parentSelectedIndex = participantIndexes[0]; //this is the first parent selected
+            let parentSelectedFitnessValue = parentSample[parentSelectedIndex].fitnessValue;
+            for(let i = 0; i<participantIndexes.length; i++) {
+                if(parentSample[participantIndexes[i]].fitnessValue > parentSelectedFitnessValue) {
+                    parentSelectedIndex = participantIndexes[i];
+                    parentSelectedFitnessValue = parentSample[parentSelectedIndex].fitnessValue;
+                }
+            }
+            parentsSelected.push(parentSample[parentSelectedIndex]);
+        }
+        return parentsSelected;
+    }    
+
 }
 
+/*
 export class Population {
     private chromosomes:Chromosome[] = [];
     private cumulativeFitnessValue:number = 0;
@@ -103,9 +165,23 @@ export class Population {
         return children;
     };
 
-    public setChromosomesTo(chromosomes:Chromosome[]) {
+    private setChromosomesTo(chromosomes:Chromosome[]) {
         this.populationSize = chromosomes.length;
         this.cumulativeFitnessValue = 0;
         this.chromosomes = chromosomes;
     }
-}
+
+
+    public updateGeneration<L extends number>(crossOverOperation: (parentsSelected:fixedLengthArray<Chromosome, L>)=>Chromosome, parentsSelected:fixedLengthArray<Chromosome, L>[]){ //need to be tuple of chromosome
+        //crossOverOperation takes in as many chormosome pairs as parents gives in a tuple
+        //reset population to new population made
+
+        let newChromosomes:Chromosome[] = []; 
+        for(let i=0; i<parentsSelected.length;i++) {
+            newChromosomes.push(crossOverOperation(parentsSelected[i]));
+        }
+
+    }
+
+
+}*/

@@ -12,6 +12,10 @@ export class Bird {
         this.angleOfRotation+=deltaRotationalValue;
     }
 
+    public ChooseAction() {
+        
+    }
+
     public die() : void{
         this.isAlive = false;
     }

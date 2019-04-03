@@ -1,29 +1,24 @@
-import {Population} from './geneticAlgoFunctions';
+import {Chromosome} from './geneticAlgoFunctions';
+import {fixedLengthArray} from './helpers'
+import { Animal } from './animal';
 
-export abstract class Specie<T> {
+export abstract class Specie<N extends number, S ,T extends Animal<N, S>, L extends number> {
 
-    public population:Population;
-    public phenotypes:T[];
-    public x:number;
-    public y:number;
+    public population:T[];
 
-    constructor(initialPopulationSize:number=100, chromosomeLength:number=10, initChromosomeToZero:boolean = false, isAllelRealValued:boolean = false, minAlleleValue:number = 0, maxAlleleValue:number = 1, public mutatorFunction:(parent1Allele:number[], parent2Allele:number[])=>number[], corssOverOperation:(parent1Allele:number[], parent2Allele:number[])=>number[] , 
-     public environmentHeight:number, public environmentWidth:number, public spriteSheet:string) {
-        this.population = new Population(initialPopulationSize, chromosomeLength, initChromosomeToZero, isAllelRealValued, minAlleleValue, maxAlleleValue);
-        this.environmentHeight = environmentHeight;
-        this.environmentWidth = environmentWidth;
-        this.spriteSheet = spriteSheet;
-    }
+    constructor(initialPopulationSize:number=100, chromosomeLength:number=10, isAllelRealValued:boolean = false, minAlleleValue:number = 0, maxAlleleValue:number = 1, 
+        public mutatorFunction:(allele:number[])=>number[], 
+        public corssOverOperation:(parentsSelected:fixedLengthArray<number[], N>)=>number[], 
+        public environmentHeight:number, public environmentWidth:number, public spriteSheet:string) {
+            this.environmentHeight = environmentHeight;
+            this.environmentWidth = environmentWidth;
+            this.spriteSheet = spriteSheet;
+        }
     
-    public abstract render():void;
+    
+    public abstract renderAll():void;
 
-    public abstract chooseAction():void;
+    public abstract chooseActions():void;
 
-    public updateX(deltaX:number):void {
-        this.x += deltaX;
-    }
 
-    public updateY(deltaY:number):void {
-        this.y += deltaY;
-    }
 }

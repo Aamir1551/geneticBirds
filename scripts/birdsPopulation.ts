@@ -4,25 +4,33 @@ import {Specie} from './specie'
 
 //bird will do its instructions based upon its chromosome
 
-class BirdPopulation extends Specie<Bird>{
-    //Specie.call(populationSize, 2, initChromosomeToZero, true, -1, 1, environmentHeight, environmentWidth, spriteSheet);
+class BirdPopulation extends Specie<Bird, 2>{
 
     constructor(initialPopulationSize:number, initChromosomeToZero:boolean = false, environmentHeight:number, environmentWidth:number, spriteSheet:string) {
 
         super(initialPopulationSize, 2, initChromosomeToZero, true, -1, 1, 
         function(allele) { return [allele[0] + Math.random() - 0.5, allele[1] + Math.random() - 0.5];},
-        function(parentAllele1, parentAllele2) { return [parentAllele1[0], parentAllele2[1]];},
-        environmentHeight, environmentWidth, "");
-        
+        function([parentAllele1, parentAllele2]) { return [parentAllele1[0], parentAllele2[1]];},
+        environmentHeight, environmentWidth, spriteSheet);
         for(let i = 0; i<initialPopulationSize; i++) {
             this.phenotypes.push(new Bird(Math.random() * environmentHeight, Math.random() * environmentWidth, Math.random() * 360, []));
         }
     }
+
+    public render() :void {
+
+    }
+
+    public chooseAction(birdInfo) {
+    let actionChosen = 0;
+    for(let i = 0; i<birdInfo.surroundings.length; i++) {
+        actionChosen+= (birdInfo.surroundings[i].x - birdInfo.x) * this.chromosome[0];
+        actionChosen+= (birdInfo.surroundings[i].y - birdInfo.y) * this.chromosome[1]; 
+    }
+    return actionChosen > 0 ? 1 : -1;
+}
 }
 
-BirdPopulation.crossOverOperation = function(chromosome1, chromosome2) {
-    return [chromosome1.alleles[0], chromosome2.alleles[1]]; 
-}
 
 BirdPopulation.prototype.createNextGeneration = function(numberOfChildren, parents) {
     for(let i = 0; i<selectedParentPairs.length; i++) {
@@ -41,10 +49,6 @@ BirdPopulation.prototype.updateFitnessValues = function() {
     for(let i = 0; i<this.population.length; i++) {
         
     }
-}
-
-BirdPopulation.mutatorFunction = function(chromosome) {
-    return [chromosome[0] + Math.random() - 0.5, chromosome[1] + Math.random() - 0.5];
 }
 
 BirdPopulation.prototype.mutate = function() {
