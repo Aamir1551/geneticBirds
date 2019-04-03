@@ -1,20 +1,16 @@
-class Chromosome {
-    public alleles: number[];
-    public fitnessValue = 0;
-
-    public constructor(allele:number[], fitnessValue:number = 0) {
-        this.alleles = allele;
+export class Chromosome {
+    public constructor(public alleles:number[], public fitnessValue:number = 0) {
+        this.alleles = alleles;
         this.fitnessValue = fitnessValue;
     }
 }
 
-class Population {
+export class Population {
     private chromosomes:Chromosome[] = [];
-    private populationSize = 0;
-    private cumulativeFitnessValue = 0;
+    private cumulativeFitnessValue:number = 0;
 
-    public constructor(populationSize : number, chromosomeLength : number, initChromosomeToZero : boolean = false, isAllelRealValued : boolean = false, minAlleleValue : number = 0, maxAlleleValue : number = 1) {
-        this.populationSize = populationSize;
+    public constructor(private populationSize : number = 0, chromosomeLength : number, initChromosomeToZero : boolean = false, isAllelRealValued : boolean = false, minAlleleValue : number = 0, maxAlleleValue : number = 1) {
+        //this.populationSize = populationSize;
         let generatedPopulation:Chromosome[] = [];
         if(initChromosomeToZero) {
             for(let i = 0; i<populationSize; i++) {
@@ -113,6 +109,3 @@ class Population {
         this.chromosomes = chromosomes;
     }
 }
-
-
-module.exports = {Population, Chromosome};

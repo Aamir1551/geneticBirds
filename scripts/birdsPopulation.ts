@@ -1,16 +1,24 @@
-const {Specie}  = require('./specie');
-const {Bird} = require('./bird')
+
+import {Bird} from './bird'
+import {Specie} from './specie'
+
 //bird will do its instructions based upon its chromosome
 
-function BirdPopulation(populationSize, initChromosomeToZero, environmentHeight, environmentWidth, spriteSheet) {
-    Specie.call(populationSize, 2, initChromosomeToZero, true, -1, 1, environmentHeight, environmentWidth, spriteSheet);
-    for(let i = 0; i<populationSize; i++) {
-        this.populationInfo.push(new Bird(Math.random() * environmentHeight, Math.random() * environmentWidth, Math.random() * 360, []));
+class BirdPopulation extends Specie<Bird>{
+    //Specie.call(populationSize, 2, initChromosomeToZero, true, -1, 1, environmentHeight, environmentWidth, spriteSheet);
+
+    constructor(initialPopulationSize:number, initChromosomeToZero:boolean = false, environmentHeight:number, environmentWidth:number, spriteSheet:string) {
+
+        super(initialPopulationSize, 2, initChromosomeToZero, true, -1, 1, 
+        function(allele) { return [allele[0] + Math.random() - 0.5, allele[1] + Math.random() - 0.5];},
+        function(parentAllele1, parentAllele2) { return [parentAllele1[0], parentAllele2[1]];},
+        environmentHeight, environmentWidth, "");
+        
+        for(let i = 0; i<initialPopulationSize; i++) {
+            this.phenotypes.push(new Bird(Math.random() * environmentHeight, Math.random() * environmentWidth, Math.random() * 360, []));
+        }
     }
 }
-
-BirdPopulation.prototype = Object.create(Specie.prototype);
-BirdPopulation.prototype.constructor = Birds;
 
 BirdPopulation.crossOverOperation = function(chromosome1, chromosome2) {
     return [chromosome1.alleles[0], chromosome2.alleles[1]]; 
