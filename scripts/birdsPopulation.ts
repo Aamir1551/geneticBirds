@@ -4,12 +4,11 @@ import {Specie} from './specie'
 
 //bird will do its instructions based upon its chromosome
 
-class BirdPopulation extends Specie<Bird, 2>{
+class BirdPopulation extends Specie<Bird>{
 
     constructor(initialPopulationSize:number, initChromosomeToZero:boolean = false, environmentHeight:number, environmentWidth:number, spriteSheet:string) {
 
-        super(initialPopulationSize, 2, initChromosomeToZero, true, -1, 1, 
-        function(allele) { return [allele[0] + Math.random() - 0.5, allele[1] + Math.random() - 0.5];},
+        super(initialPopulationSize,2 ,true , -1, 1, 
         function([parentAllele1, parentAllele2]) { return [parentAllele1[0], parentAllele2[1]];},
         environmentHeight, environmentWidth, spriteSheet);
         for(let i = 0; i<initialPopulationSize; i++) {

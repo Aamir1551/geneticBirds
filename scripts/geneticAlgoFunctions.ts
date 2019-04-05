@@ -1,18 +1,16 @@
-import {fixedLengthArray} from './helpers'
-
 export class Chromosome {
 
-    public constructor(public alleles:number[], public fitnessValue:number = 0, public mutatorFunction:(allele:number[])=>number[]) {}
+    public constructor(public alleles:number[] = [], public fitnessValue:number = 0) {}
 
-    public mutateChromosome() {
-        this.alleles = this.mutatorFunction(this.alleles);
+    public mutateChromosome(mutatorFunction:(allele:number[])=>number[]) : void{
+        this.alleles = mutatorFunction(this.alleles);
     }
 
-    public setFitnessValue(fitnessValue:number) {
+    public setFitnessValue(fitnessValue:number) : void {
         this.fitnessValue = fitnessValue;
     }
 
-    public initialize(chromosomeLength : number, isAlleleRealValued : Boolean = false, minAlleleValue : number = 0, maxAlleleValue:number=0) {
+    public initialize(chromosomeLength : number, isAlleleRealValued : Boolean = false, minAlleleValue : number = 0, maxAlleleValue:number=0) : void {
         let currentChromosome = [];
         for(let j = 0; j<chromosomeLength; j++) {
             let randomAllele = Math.random() * (maxAlleleValue - minAlleleValue) + minAlleleValue;
@@ -21,7 +19,7 @@ export class Chromosome {
         }
     }
 
-    public selectParentByUniversalSampling(parentSample:Chromosome[], numParentsTOSelect:number, cumulativeFitnessValue) : Chromosome[]{
+    public static selectParentByUniversalSampling(parentSample:Chromosome[], numParentsTOSelect:number, cumulativeFitnessValue:number) : Chromosome[]{
         let parentsSelected:Chromosome[] = [];
         let parentsPointsSelected = [];
         
@@ -40,7 +38,7 @@ export class Chromosome {
         return parentsSelected;
     }
 
-    public selectParentByTournamentSelection(parentSample:Chromosome[], numParentsToSelect:number, tounramentSize:number) : Chromosome[]{
+    public static selectParentByTournamentSelection(parentSample:Chromosome[], numParentsToSelect:number, tounramentSize:number) : Chromosome[]{
 
         let parentsSelected : Chromosome[];
         for(let j = 0; j<numParentsToSelect;j++) {

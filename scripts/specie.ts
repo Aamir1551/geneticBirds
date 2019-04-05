@@ -1,14 +1,13 @@
 import {Chromosome} from './geneticAlgoFunctions';
-import {fixedLengthArray} from './helpers'
 import { Animal } from './animal';
 
-export abstract class Specie<N extends number, S ,T extends Animal<N, S>, L extends number> {
+export abstract class Specie<S> {
 
-    public population:T[];
+    public population:Animal<S>[];
 
-    constructor(initialPopulationSize:number=100, chromosomeLength:number=10, isAllelRealValued:boolean = false, minAlleleValue:number = 0, maxAlleleValue:number = 1, 
-        public mutatorFunction:(allele:number[])=>number[], 
-        public corssOverOperation:(parentsSelected:fixedLengthArray<number[], N>)=>number[], 
+    constructor(public initialPopulationSize:number=100, chromosomeLength:number = 1,
+        isAllelRealValued:boolean = false, minAlleleValue:number = 0, maxAlleleValue:number = 0, 
+        public corssOverOperation:(parentsSelected:number[])=>number[], 
         public environmentHeight:number, public environmentWidth:number, public spriteSheet:string) {
             this.environmentHeight = environmentHeight;
             this.environmentWidth = environmentWidth;
