@@ -3,9 +3,8 @@ import { Action } from './action';
 
 export abstract class Animal<L> {
 
-    constructor(public chromosome:Chromosome, public x:number, public y:number, 
+    public constructor(public chromosome:Chromosome, public x:number, public y:number, 
         public speed:number, public angleOfRotation:number = 0, public vision:L[], public isAlive:boolean = true, 
-        public selectParentFunction:(parentSampleSpace:Chromosome[])=>Chromosome[],
         public mutatorFunction:(allele:number[])=>number[]){};
 
     public updateSurroundings(newVision:L[]) : void {
@@ -24,8 +23,9 @@ export abstract class Animal<L> {
          */
     }
 
-    //An action is chosen based upon the surroundings and its features
     public abstract chooseAction() : Action;
+
+    public abstract updateFitness() : void;
 
     public die() : void{
         this.isAlive = false;
