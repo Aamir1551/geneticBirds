@@ -25,6 +25,8 @@ export class Bird extends Animal<Bird> {
     }
 
     public updateFitness() : void {
-        this.chromosome.fitnessValue++;
+        if(this.isAlive) {
+            this.chromosome.fitnessValue++;
+        }
     }
 }

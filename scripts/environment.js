@@ -1,5 +1,4 @@
 const {Population, Chromosome} =  require('./geneticAlgoFunctions.js');
-//const {Bird} = require('./bird'); should be needing bird file
 //environment will hold the population
 //environment will fill in the population details (mutator func and all that)
 //
